@@ -1,0 +1,85 @@
+{% extends 'orders/layout.html' %}
+{% load static %}
+
+{% block headTitle %}
+    {{ product.name }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <section class="grid-td place-center">
+            <div class="padding-2 text-center">
+                <img src="{{ product.img_url }}" alt="product-img"
+                     class="detail-img">
+            </div>
+            <div class="detail-info padding-2">
+                <h2><strong>{{ product.name }}</strong></h2>
+                <h3>{{ product.category }}</h3>
+
+                {% if product.one_size %}
+                    <h5>${{ product.price }}</h5>
+                {% else %}
+                    <h5>Small: ${{ product.price }}</h5>
+                    <h5>Large: ${{ product.priceLarge }}</h5>
+                {% endif %}
+                <br>
+                <hr>
+                <form class="detail-select" method="post" action="{% url 'add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <div class="detail-choose">
+                        <label for="detail-selector-size">Size:&#160;</label>
+                        <select id="detail-selector-size" name="size" title="Size" data-width="237.75px"
+                                class="selectpicker" required>
+                            {% if product.one_size %}
+                                <option value="O">One Size&#160;&#160;&#160;&#160;&#160;${{ product.price }}</option>
+                            {% else %}
+                                <option value="S">Small&#160;&#160;&#160;&#160;&#160;${{ product.price }}</option>
+                                <option value="L">Large&#160;&#160;&#160;&#160;&#160;${{ product.priceLarge }}</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="detail-choose">
+                        <label for="detail-selector-quantity">Quantity:&#160;</label>
+                        <select id="detail-selector-quantity" name="quantity" title="Quantity" class="selectpicker"
+                                data-width="200px" required>
+                            <option value=1> 1</option>
+                            <option value=2> 2</option>
+                            <option value=3> 3</option>
+                            <option value=4> 4</option>
+                            <option value=5> 5</option>
+                        </select>
+                    </div>
+                    {% if product.topping_num %}
+                        <div class="detail-choose">
+                            <label for="detail-selector-topping">Topping:&#160;</label>
+                            <select id="detail-selector-topping" name="toppings" class="selectpicker"
+                                    title="Select your topping" multiple required
+                                    data-selected-text-format="count"
+                                    data-live-search="true" data-width="208.22px"
+                                    data-max-options="{{ product.topping_num }}">
+                                {% for top in topping %}
+                                    <option value="{{ top.name }}">{{ top.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    {% endif %}
+                    {% if product.is_allowed_additional %}
+                        <div class="detail-choose">
+                            <label for="detail-selector-additional">Extra:&#160;</label>
+                            <select id="detail-selector-additional" name="additional" class="selectpicker" multiple
+                                    data-selected-text-format="count"
+                                    data-live-search="true" data-width="227.72px">
+                                {% for item in additional %}
+                                    <option value="{{ item.name }}">{{ item }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    {% endif %}
+                    <hr>
+                    <br>
+                    <button class="banner-btn detail-btn" value="{{ product.id }}" type="submit">Add to cart</button>
+                </form>
+            </div>
+        </section>
+    </div>
+{% endblock %}

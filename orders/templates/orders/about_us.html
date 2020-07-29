@@ -1,0 +1,52 @@
+{% extends 'orders/layout.html' %}
+{% load static %}
+
+{% block headTitle %}
+    About Us
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <article class="padding-2 ">
+            <h2 class="cart-title">About Us</h2>
+            <hr>
+            <div class="grid-td">
+                <div class="about-img">
+                    <img src="{% static  'orders/img/dan-1.jpg' %}" alt="story-img">
+                </div>
+
+                <div>
+                    <div>
+                        <h3 class="cart-title">Our History</h3>
+                        <h5>Gino's has been in business for over 50 years! We've been feeding Harvard and the
+                            surrounding
+                            area
+                            since 1966!</h5>
+                        <br>
+                        <hr>
+                        <br>
+                    </div>
+                    <div>
+                        <h3 class="cart-title">Sicilian vs. Regular</h3>
+                        <h4><strong>Sicilian Pizza</strong></h4>
+                        <h5>Our Sicilian pizza is a deep-dish or thick-crust pizza. We sell them in a 9-slice or a
+                            15-slice size.</h5>
+
+                        <h5>The 9-slice size is 16" x 16" and will feed anywhere from 3 to 5 people.</h5>
+                        <h5>The 15-slice size is 28" x 16", comes in 2 large pizza boxes and can feed 6 to 9
+                            people.</h5>
+                        <br>
+                        <h4><strong>Regular Pizza</strong></h4>
+                        <h5>Our Regular pizza is a thin-crust or Neapolitan pizza. They come in 2 sizes: small (12" in
+                            diameter) and large (16" in diameter). The small is suitable for 1 to 2 people while the
+                            large
+                            feeds 2 to 4 people.</h5>
+                        <br>
+                        <hr>
+                    </div>
+
+                </div>
+            </div>
+        </article>
+    </div>
+{% endblock %}

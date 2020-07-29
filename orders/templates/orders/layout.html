@@ -1,0 +1,101 @@
+{% load static %}
+{% load total_items %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Gino's | {% block headTitle %} {% endblock %}</title>
+
+    <script src="https://kit.fontawesome.com/ba441c10d6.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" type="image/png" href="{% static 'orders/img/icon.png' %}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'orders/css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'orders/css/style.css' %}" type="text/css">
+    {% block head %}{% endblock %}
+</head>
+<body>
+<main>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <img src="{% static 'orders/img/logo.png' %}" width="110" height="50" alt="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="nav navbar-nav">
+                <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
+                <a class="nav-item nav-link" href="{% url 'menu' %}">Menu</a>
+                <a class="nav-item nav-link" href="{% url 'about_us' %}">About</a>
+                <a class="nav-item nav-link" href="{% url 'contact' %}">Contact Us</a>
+            </div>
+            {% if request.user.is_authenticated %}
+                <div class="nav navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Welcome, {{ request.user.first_name }}!
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'order_history' %}">Order History</a>
+                            <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
+                            <a class="dropdown-item" href="{% url 'change_email' %}">Change Email</a>
+                        </div>
+                    </li>
+                    <div class="nav-cart form-inline">
+                        <a href="{% url 'cart_view' %}">
+                        <span class="cart-icon">
+                            <i class="fas fa-shopping-cart fa-lg"></i>
+                        </span>
+                        </a>
+                        <div class="nav-cart-items">
+                            {{ request.user|get_total_cart }}
+                        </div>
+                    </div>
+                    <a class="nav-link" href="{% url 'logout' %}">Sign Out</a>
+                </div>
+            {% else %}
+                <div class="nav navbar-nav ml-auto">
+                    <a class="nav-item nav-link" href="{% url 'signin' %}"> Sign In</a>
+                    <a class="nav-item nav-link" href="{% url 'signup' %}"> Sign Up</a>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Render message by Django message framework -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show text-center" role="alert">
+                {{ message|safe }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block body %}
+
+    {% endblock %}
+</main>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="{% static 'orders/js/bootstrap-select.min.js' %}"></script>
+{% block extraScript %}
+
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,14 @@
+{% extends 'orders/layout.html' %}
+{% load static %}
+{% block headTitle %}
+    Home
+{% endblock %}
+
+{% block body %}
+    <header class="main-page">
+        <div class="banner">
+            <h1 class="banner-title">Pizza is our daily basis</h1>
+            <a href="{% url 'menu' %}" class="banner-btn"><span>Order Now</span></a>
+        </div>
+    </header>
+{% endblock %}

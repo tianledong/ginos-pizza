@@ -1,0 +1,25 @@
+{% extends 'orders/layout.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block headTitle %}
+    Change Email
+{% endblock %}
+
+{% block body %}
+    <div class="container form-container">
+        <h2 class="cart-title">Change Email</h2>
+        <h4>Current Email: {{ request.user.email }}</h4>
+        <br>
+
+        <div class="form-group">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="form-btn-group">
+                    <button class="banner-btn form-btn" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

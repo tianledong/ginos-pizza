@@ -1,0 +1,49 @@
+{% extends 'orders/layout.html' %}
+{% load static %}
+
+{% block headTitle %}
+    Menu
+{% endblock %}
+
+{% block body %}
+    <section class="menu">
+        <div class="menu-title">
+            <h1>Menu</h1>
+            <h5>We not only sell pizza. we sell fresh.</h5>
+        </div>
+        <hr>
+        {% for item in category %}
+            <div class="category-title">
+                <h2>{{ item.category }}</h2>
+                <br>
+            </div>
+            <div class="menu-center">
+                {% for i in product %}
+                    {% if i.category.category == item.category %}
+                        <article class="product">
+                            <div class="img-container">
+                                <img src="{{ i.img_url }}" alt="product-img"
+                                     class="product-img">
+                                <a class="product-btn" href="{% url 'detail' i.id %}">
+                                    <img src="{% static 'orders/img/pizza-1428929_640.png' %}" alt="information-img"
+                                         class="information-img">
+                                    More information
+                                </a>
+                            </div>
+                            <div class="cart-items-info">
+                                <h2>{{ i.name }}</h2>
+                                {% if i.one_size %}
+                                    <h5>${{ i.price }}</h5>
+                                {% else %}
+                                    <h5>Small: ${{ i.price }}</h5>
+                                    <h5>Large: ${{ i.priceLarge }}</h5>
+                                {% endif %}
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <hr>
+        {% endfor %}
+    </section>
+{% endblock %}

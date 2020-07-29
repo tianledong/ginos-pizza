@@ -1,0 +1,38 @@
+{% extends 'orders/layout.html' %}
+{% load static %}
+
+{% block headTitle %}
+    Contact
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <article class="padding-2 ">
+            <h2 class="cart-title">Contact Us</h2>
+            <hr>
+            <div class="grid-td">
+                <div>
+                    <h3 class="cart-title">Store Hours</h3>
+                    <div class="text-center">
+                        <p>Sunday: 1 pm - 12 midnight</p>
+                        <p>Monday - Thursday: 11 am - 1 am</p>
+                        <p>Friday - Saturday: 11 am - 2:30 am</p>
+                    </div>
+                    <hr>
+                    <h3 class="cart-title">Follow Us on Social Media</h3>
+                    <div class="text-center">
+                        <a><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                        <a><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                        <a><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+                        <a><i class="fa fa-snapchat" aria-hidden="true"></i></a>
+                    </div>
+                    <hr>
+                </div>
+                <div class="about-img">
+                    <img src="{% static  'orders/img/contact.jpg' %}" alt="story-img">
+                </div>
+            </div>
+        </article>
+    </div>
+{% endblock %}

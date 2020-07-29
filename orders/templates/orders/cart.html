@@ -1,0 +1,76 @@
+{% extends 'orders/layout.html' %}
+{% load static %}
+
+{% block headTitle %}
+    Shopping Cart
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <section class="shopping-cart">
+            <h1 class="cart-title">Shopping Cart</h1>
+            <hr>
+            <div class="cart-body">
+                {% for product in order.orderProduct.all %}
+                    <div class="cart-items">
+                        <div class="text-center">
+                            <img src="{{ product.product.img_url }}" alt="product-img"
+                                 class="cart-items-img">
+                        </div>
+                        <div>
+                            <a href="{% url 'detail' product.product.id %}" class="product-tittle-link">
+                                <h4>{{ product.product.category }}: {{ product.product.name }}</h4></a>
+                            <h5>Size: {{ product.size }}</h5>
+                            <h5>Price: <strong>${{ product.get_price }}</strong></h5>
+                            {% if product.toppings.all %}
+                                <p class="cart-extra">Topping(s):&#160;</p>
+                                {% for t in product.toppings.all %}
+                                    <p class="cart-extra">{{ t }}&#160;</p>
+                                {% endfor %}
+                            {% endif %}
+                            {% if product.additional.all %}
+                                <p class="cart-extra">Extra:&#160;</p>
+                                {% for a in product.additional.all %}
+                                    <p class="cart-extra">{{ a }}&#160;</p>
+                                {% endfor %}
+                            {% endif %}
+                            <br>
+                            <a class="cart-items-remove" href="{% url 'remove_cart_item' product.id %}">
+                                <i class="fas fa-trash"></i>Remove
+                            </a>
+                        </div>
+
+                        <div class="cart-quantity">
+                            <a href="{% url 'plus_cart_item' product.id %}">
+                                <i class="fas fa-chevron-up"></i>
+                            </a>
+                            <p>{{ product.quantity }}</p>
+                            <a href="{% url 'minus_cart_item' product.id %}">
+                                <i class="fas fa-chevron-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+            </div>
+            {% if order.total_item %}
+                <div class="cart-footer">
+                    <div class="cart-total">
+                        <h4>Total Items: <strong>{{ order.total_item }}</strong></h4>
+                        <h4>Order Total: <strong>${{ order.total_price }}</strong></h4>
+                    </div>
+                    <div class="cart-btn-total">
+                        <a class="cart-btn cart-clear-btn" href="{% url 'clear_cart' %}">Remove all items</a>
+                        <a class="cart-btn" href="{% url 'menu' %}">Continue shopping</a>
+                        <a class="cart-btn" href="{% url 'checkout' %}"> Proceed to checkout</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="cart-total padding-2">
+                    <h4>Your shopping cart is empty...</h4>
+                    <a class="cart-btn" href="{% url 'menu' %}">View menu</a>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

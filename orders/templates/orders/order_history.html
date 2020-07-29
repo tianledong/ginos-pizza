@@ -1,0 +1,38 @@
+{% extends 'orders/layout.html' %}
+{% load static %}
+
+{% block headTitle %}
+    Order History
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% if orders %}
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order Date</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">&#160;</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders.all %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ order.orderTime }}</td>
+                        <td>${{ order.total_price }}</td>
+                        <td><a href="{% url 'order_history_detail' order.id %}">Order Details</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="cart-total padding-2">
+                <h4>Your order history is empty...</h4>
+                <a class="cart-btn" href="{% url 'menu' %}">View menu</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

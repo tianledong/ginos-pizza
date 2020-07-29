@@ -1,0 +1,23 @@
+{% extends 'orders/layout.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block headTitle %}
+    Sign Up
+{% endblock %}
+
+{% block body %}
+    <div class="container form-container">
+        <h2 class="cart-title">Sign Up</h2>
+        <div class="form-group">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <a href="{% url 'signin' %}">Already have an account?</a>
+                <div class="form-btn-group">
+                    <button class="banner-btn form-btn" type="submit">Sign up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
