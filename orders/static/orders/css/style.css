@@ -531,6 +531,10 @@ a:hover {
     .detail {
         grid-template-columns: 1fr;
     }
+
+    .cart-btn {
+        margin-right: auto;
+    }
 }
 
 @media (max-width: 577px) {
