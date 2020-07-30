@@ -36,9 +36,9 @@
             <hr>
         {% endfor %}
         <div class="cart-total padding-2">
-            <h4>Total Date: {{ orders.orderTime }}</h4>
-            <h4>Total Items: <strong>{{ orders.total_item }}</strong></h4>
-            <h4>Order Total: <strong>${{ orders.total_price }}</strong></h4>
+            <h5>Total Date: {{ orders.orderTime }}</h5>
+            <h5>Total Items: <strong>{{ orders.total_item }}</strong></h5>
+            <h5>Order Total: <strong>${{ orders.total_price }}</strong></h5>
             <a class="cart-btn" href="{% url 'order_history' %}">Back to History</a>
             <a class="cart-btn" href="{% url 'menu' %}">Back to menu</a>
         </div>

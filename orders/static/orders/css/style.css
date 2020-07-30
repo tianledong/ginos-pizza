@@ -30,13 +30,17 @@ body {
     margin-left: auto;
 }
 
+.grind-center{
+    display: grid;
+    place-items: center;
+    height: 100%;
+    width: 100%;
+}
+
 .form-container {
     padding: 1rem 2rem;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    flex-direction: column;
+    width: 75%;
+    max-width: 600px;
 }
 
 a {
@@ -45,7 +49,7 @@ a {
 
 a:hover {
     color: #000000;
-    text-decoration: none;
+    text-decoration: underline;
     cursor: pointer;
 }
 
@@ -65,7 +69,8 @@ a:hover {
 
 .form-btn {
     margin-top: 1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    width: 100%;
 }
 
 .form-btn-group {
@@ -561,7 +566,8 @@ a:hover {
     }
 
     .cart-footer {
-        grid-template-columns: unset;
+        grid-template-columns: 1fr;
+        place-items: center;
     }
 
     .cart-btn-total {

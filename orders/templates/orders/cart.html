@@ -14,8 +14,10 @@
                 {% for product in order.orderProduct.all %}
                     <div class="cart-items">
                         <div class="text-center">
+                            <a href="{% url 'detail' product.product.id %}">
                             <img src="{{ product.product.img_url }}" alt="product-img"
                                  class="cart-items-img">
+                                </a>
                         </div>
                         <div>
                             <a href="{% url 'detail' product.product.id %}" class="product-tittle-link">
@@ -56,8 +58,8 @@
             {% if order.total_item %}
                 <div class="cart-footer">
                     <div class="cart-total">
-                        <h4>Total Items: <strong>{{ order.total_item }}</strong></h4>
-                        <h4>Order Total: <strong>${{ order.total_price }}</strong></h4>
+                        <h5>Total Items: <strong>{{ order.total_item }}</strong></h5>
+                        <h5>Order Total: <strong>${{ order.total_price }}</strong></h5>
                     </div>
                     <div class="cart-btn-total">
                         <a class="cart-btn cart-clear-btn" href="{% url 'clear_cart' %}">Remove all items</a>
@@ -67,7 +69,7 @@
                 </div>
             {% else %}
                 <div class="cart-empty padding-2">
-                    <h4>Your shopping cart is empty...</h4>
+                    <h5>Your shopping cart is empty...</h5>
                     <a class="cart-btn margin-rl-auto margin-top1" href="{% url 'menu' %}">View menu</a>
                 </div>
             {% endif %}
