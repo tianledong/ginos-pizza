@@ -429,6 +429,7 @@ a:hover {
     border: 1px solid transparent;
     width: 225px;
     margin-left: auto;
+    margin-bottom: 0.8rem;
 }
 
 .cart-btn:hover {
