@@ -25,7 +25,7 @@ SECRET_KEY = 'i_ef#*68b(cauft*uo%^gu$zb8=o7!zb8p$rqw1-q3qztg07f3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://ginos-pizza.herokuapp.com', 'http://127.0.0.1:8000']
+ALLOWED_HOSTS = ['ginos-pizza.herokuapp.com', '127.0.0.1:8000']
 
 # Application definition
 INSTALLED_APPS = [
