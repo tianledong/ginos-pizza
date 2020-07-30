@@ -30,8 +30,10 @@
         {% for product in orders.orderProduct.all %}
             <div class="cart-items order-history-items">
                 <div class="text-center">
-                    <img src="{{ product.product.img_url }}" alt="product-img"
-                         class="cart-items-img">
+                    <a href="{% url 'detail' product.product.id %}">
+                        <img src="{{ product.product.img_url }}" alt="product-img"
+                             class="cart-items-img">
+                    </a>
                 </div>
                 <div>
                     <a class="product-tittle-link" href="{% url 'detail' product.product.id %}">
