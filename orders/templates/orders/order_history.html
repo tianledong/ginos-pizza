@@ -29,9 +29,9 @@
                 </tbody>
             </table>
         {% else %}
-            <div class="cart-total padding-2">
+            <div class="cart-empty padding-2">
                 <h4>Your order history is empty...</h4>
-                <a class="cart-btn" href="{% url 'menu' %}">View menu</a>
+                <a class="cart-btn margin-top1 margin-rl-auto" href="{% url 'menu' %}">View menu</a>
             </div>
         {% endif %}
     </div>
