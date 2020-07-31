@@ -367,7 +367,7 @@ def change_password(request):
             messages.success(request, "Success! Your password has been updated!")
             return redirect('change_password')
         else:
-            messages.error(request, "Sorry, either your old password is incorrect or your new password is not match!")
+            messages.error(request, "Sorry, either your old password is incorrect or your new password dose not match!")
             return redirect('change_password')
 
 
@@ -387,5 +387,5 @@ def change_email(request):
                 messages.success(request, "Success! Your email has been updated!")
                 return redirect('change_email')
 
-        messages.error(request, "Sorry, Your new email is not match!")
+        messages.error(request, "Sorry, Your new email dose not match!")
         return redirect('change_email')
