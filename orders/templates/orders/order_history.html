@@ -8,12 +8,13 @@
 {% block body %}
     <div class="container">
         {% if orders %}
-            <table class="table table-hover">
+            <table class="table table-hover text-center">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Order Date</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Status</th>
                     <th scope="col">&#160;</th>
                 </tr>
                 </thead>
@@ -23,6 +24,11 @@
                         <th scope="row">{{ forloop.counter }}</th>
                         <td>{{ order.orderTime }}</td>
                         <td>${{ order.total_price }}</td>
+                        {% if order.finished %}
+                            <td>Finished</td>
+                            {% else %}
+                            <td>Waiting for pickup</td>
+                        {% endif %}
                         <td><a href="{% url 'order_history_detail' order.id %}">Order Details</a></td>
                     </tr>
                 {% endfor %}

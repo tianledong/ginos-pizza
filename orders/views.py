@@ -123,7 +123,7 @@ def add_to_cart(request, product_id):
                 a_item = get_object_or_404(Additional, name=a)
                 order_product.additional.add(a_item)
         # get oder's Queryset by user and it should be unfinished order
-        order_qs = Order.objects.filter(user=request.user, finished=False)
+        order_qs = Order.objects.filter(user=request.user, paid=False)
         if order_qs.exists():
             order = order_qs[0]
             for o in order.orderProduct.all():
@@ -168,7 +168,7 @@ def add_to_cart(request, product_id):
 
 # helper function to find specific product by id
 def find_product_helper(request, order_product_id):
-    order_qs = Order.objects.filter(user=request.user, finished=False)
+    order_qs = Order.objects.filter(user=request.user, paid=False)
     if order_qs.exists():
         order = order_qs[0]
         order_product_qs = order.orderProduct.filter(id=order_product_id, ordered=False)
@@ -225,7 +225,7 @@ def minus_cart_item(request, order_product_id):
 
 @login_required_message
 def cart_view(request):
-    order_qs = Order.objects.filter(user=request.user, finished=False)
+    order_qs = Order.objects.filter(user=request.user, paid=False)
     if order_qs.exists():
         context = {'order': order_qs[0]}
         return render(request, 'orders/cart.html', context)
@@ -234,7 +234,7 @@ def cart_view(request):
 
 @login_required_message
 def clear_cart(request):
-    order_qs = Order.objects.filter(user=request.user, finished=False)
+    order_qs = Order.objects.filter(user=request.user, paid=False)
     if order_qs.exists():
         order = order_qs[0]
         for i in order.orderProduct.all():
@@ -248,7 +248,7 @@ def clear_cart(request):
 
 @login_required_message
 def checkout(request):
-    order_qs = Order.objects.filter(user=request.user, finished=False)
+    order_qs = Order.objects.filter(user=request.user, paid=False)
     if order_qs.exists():
         order = order_qs[0]
         if order.total_price() <= 0:
@@ -281,12 +281,12 @@ def checkout(request):
                 for product in order.orderProduct.all():
                     product.ordered = True
                     product.save()
-                order.finished = True
+                order.paid = True
                 order.orderTime = timezone.now()
+                payment = Payment.objects.create(order=order, stripe_id=stripe_charge['id'],
+                                                 billing_address=billing_address, amount=amount)
+                order.payment = payment
                 order.save()
-
-                Payment.objects.create(order=order, stripe_id=stripe_charge['id'], user=request.user,
-                                       billing_address=billing_address, amount=amount)
 
                 context = {'orders': order}
                 return render(request, 'orders/success.html', context)
@@ -333,13 +333,13 @@ def checkout(request):
 
 @login_required_message
 def order_history(request):
-    order_qs = Order.objects.filter(user=request.user, finished=True)
+    order_qs = Order.objects.filter(user=request.user, paid=True)
     return render(request, 'orders/order_history.html', {'orders': order_qs})
 
 
 @login_required_message
 def order_history_detail(request, order_id):
-    order_qs = Order.objects.filter(user=request.user, finished=True, id=order_id)
+    order_qs = Order.objects.filter(user=request.user, paid=True, id=order_id)
     if order_qs.exists():
         return render(request, 'orders/order_history_detail.html', {'orders': order_qs[0]})
     messages.error(request, "Cannot check this history for you...")
@@ -367,7 +367,7 @@ def change_password(request):
             messages.success(request, "Success! Your password has been updated!")
             return redirect('change_password')
         else:
-            messages.error(request, "Sorry, either your old password is incorrect or your new password dose not match!")
+            messages.error(request, "Sorry, either your old password is incorrect or your new password does not match!")
             return redirect('change_password')
 
 
@@ -387,5 +387,5 @@ def change_email(request):
                 messages.success(request, "Success! Your email has been updated!")
                 return redirect('change_email')
 
-        messages.error(request, "Sorry, Your new email dose not match!")
+        messages.error(request, "Sorry, Your new email does not match!")
         return redirect('change_email')

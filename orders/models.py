@@ -32,8 +32,8 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=64)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, max_length=64)
-    price = models.DecimalField(decimal_places=2, max_digits=100000, null=True, blank=True)
-    priceLarge = models.DecimalField(decimal_places=2, max_digits=100000, null=True, blank=True)
+    price = models.DecimalField(decimal_places=2, max_digits=1000, null=True, blank=True)
+    priceLarge = models.DecimalField(decimal_places=2, max_digits=1000, null=True, blank=True)
     one_size = models.BooleanField(default=False)
     topping_num = models.IntegerField(default=0)
     is_allowed_additional = models.BooleanField(default=False)
@@ -82,11 +82,30 @@ class OrderProduct(models.Model):
             return self.product.price * self.quantity
 
 
-class Order(models.Model):
+class BillingAddress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name_on_card = models.CharField(max_length=64)
+    address = models.CharField(max_length=100)
+    address1 = models.CharField(max_length=100, null=True, blank=True)
+    city = models.CharField(max_length=64)
+    state = models.CharField(max_length=2, choices=STATE_SETTING)
+    zip = models.IntegerField()
+
+
+class Payment(models.Model):
+    stripe_id = models.CharField(max_length=64)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    billing_address = models.ForeignKey(BillingAddress, on_delete=models.SET_NULL, null=True, blank=True)
+    amount = models.IntegerField()
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     orderProduct = models.ManyToManyField(OrderProduct)
     finished = models.BooleanField(default=False)
     orderTime = models.DateTimeField(null=True, blank=True)
+    paid = models.BooleanField(default=False)
+    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.user.username
@@ -102,21 +121,3 @@ class Order(models.Model):
         for product in self.orderProduct.all():
             total += product.quantity
         return total
-
-
-class BillingAddress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name_on_card = models.CharField(max_length=64)
-    address = models.CharField(max_length=100)
-    address1 = models.CharField(max_length=100, null=True, blank=True)
-    city = models.CharField(max_length=64)
-    state = models.CharField(max_length=2, choices=STATE_SETTING)
-    zip = models.IntegerField()
-
-
-class Payment(models.Model):
-    stripe_id = models.CharField(max_length=64)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
-    billing_address = models.ForeignKey(BillingAddress, on_delete=models.SET_NULL, null=True, blank=True)
-    amount = models.IntegerField()
