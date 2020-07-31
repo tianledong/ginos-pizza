@@ -1,12 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.contrib.auth.forms import PasswordChangeForm
 
+from .decorators import login_required_message
 from .form import *
 from .models import *
+
 import os
 import stripe
 from stripe import error
@@ -37,7 +38,7 @@ def signup(request):
                 user.last_name = last_name
                 user.save()
                 login(request, user)
-                messages.add_message(request, messages.SUCCESS, f'Welcome! {first_name}')
+                messages.add_message(request, messages.SUCCESS, f'Welcome! {first_name}!')
                 return render(request, 'orders/home.html')
             except:
                 messages.add_message(request, messages.ERROR, 'Username has been taken!')
@@ -71,7 +72,7 @@ def signin(request):
         return render(request, 'orders/signin.html', {'form': UserLoginForm()})
 
 
-@login_required(login_url='signin')
+@login_required_message
 def logout_view(request):
     logout(request)
     messages.info(request, 'You have logged out.')
@@ -95,7 +96,7 @@ def detail(request, product_id):
     return render(request, 'orders/detail.html', context)
 
 
-@login_required(login_url='signin')
+@login_required_message
 def add_to_cart(request, product_id):
     if request.method == "POST":
         product = get_object_or_404(Product, id=product_id)
@@ -177,7 +178,7 @@ def find_product_helper(request, order_product_id):
     return None
 
 
-@login_required(login_url='signin')
+@login_required_message
 def remove_cart_item(request, order_product_id):
     order_product = find_product_helper(request, order_product_id)
     if order_product:
@@ -190,7 +191,7 @@ def remove_cart_item(request, order_product_id):
     return redirect('cart_view')
 
 
-@login_required(login_url='signin')
+@login_required_message
 def plus_cart_item(request, order_product_id):
     order_product = find_product_helper(request, order_product_id)
     if order_product:
@@ -204,7 +205,7 @@ def plus_cart_item(request, order_product_id):
     return redirect('cart_view')
 
 
-@login_required(login_url='signin')
+@login_required_message
 def minus_cart_item(request, order_product_id):
     order_product = find_product_helper(request, order_product_id)
     if order_product:
@@ -222,7 +223,7 @@ def minus_cart_item(request, order_product_id):
     return redirect('cart_view')
 
 
-@login_required(login_url='signin')
+@login_required_message
 def cart_view(request):
     order_qs = Order.objects.filter(user=request.user, finished=False)
     if order_qs.exists():
@@ -231,7 +232,7 @@ def cart_view(request):
     return render(request, 'orders/cart.html')
 
 
-@login_required(login_url='signin')
+@login_required_message
 def clear_cart(request):
     order_qs = Order.objects.filter(user=request.user, finished=False)
     if order_qs.exists():
@@ -245,7 +246,7 @@ def clear_cart(request):
     return redirect('cart_view')
 
 
-@login_required(login_url='signin')
+@login_required_message
 def checkout(request):
     order_qs = Order.objects.filter(user=request.user, finished=False)
     if order_qs.exists():
@@ -330,13 +331,13 @@ def checkout(request):
     return redirect('cart_view')
 
 
-@login_required(login_url='signin')
+@login_required_message
 def order_history(request):
     order_qs = Order.objects.filter(user=request.user, finished=True)
     return render(request, 'orders/order_history.html', {'orders': order_qs})
 
 
-@login_required(login_url='signin')
+@login_required_message
 def order_history_detail(request, order_id):
     order_qs = Order.objects.filter(user=request.user, finished=True, id=order_id)
     if order_qs.exists():
@@ -353,7 +354,7 @@ def contact(request):
     return render(request, 'orders/contact.html')
 
 
-@login_required(login_url='signin')
+@login_required_message
 def change_password(request):
     if request.method == "GET":
         form = PasswordChangeForm(request.user)
@@ -366,11 +367,11 @@ def change_password(request):
             messages.success(request, "Success! Your password has been updated!")
             return redirect('change_password')
         else:
-            messages.error(request, "Sorry, either your old password is incorrect or your new password does not match!")
+            messages.error(request, "Sorry, either your old password is incorrect or your new password is not match!")
             return redirect('change_password')
 
 
-@login_required(login_url='signin')
+@login_required_message
 def change_email(request):
     if request.method == "GET":
         form = ChangeEmail()
@@ -386,5 +387,5 @@ def change_email(request):
                 messages.success(request, "Success! Your email has been updated!")
                 return redirect('change_email')
 
-        messages.error(request, "Sorry, Your new email does not match!")
+        messages.error(request, "Sorry, Your new email is not match!")
         return redirect('change_email')
