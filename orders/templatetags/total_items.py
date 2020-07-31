@@ -6,7 +6,7 @@ register = template.Library()
 
 @register.filter(name='get_total_cart')
 def get_total_cart(user):
-    order_qs = Order.objects.filter(user=user, finished=False)
+    order_qs = Order.objects.filter(user=user, paid=False)
     if order_qs.exists():
         order = order_qs[0]
         return order.total_item()
