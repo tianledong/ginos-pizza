@@ -13,3 +13,4 @@ See the live web app [here](https://ginos-pizza.herokuapp.com/).
 - Placing an Order: Once there is at least one item in the shopping cart, user are able to check out through Stripe API.
 - Change Email: Once sign in, user can use change email form to change their email address.
 - Change Password: Once sign in, user can use change password form to change their email address.
+- History Order: Once sign in, users are allowed to check their history order and check their order status.
