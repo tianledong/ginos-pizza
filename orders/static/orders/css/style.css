@@ -8,7 +8,6 @@ body {
 body {
     background: url("../img/dan-burton-Uwh4eXp4t4Y-unsplash.jpg") no-repeat fixed center;
     background-size: cover;
-    min-height: calc(100vh - 76px);
     font-family: "Lato", sans-serif;
     color: #2a2a2a;
 }
