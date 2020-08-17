@@ -41,7 +41,7 @@
                     <div class="detail-choose">
                         <label for="detail-selector-quantity">Quantity:&#160;</label>
                         <select id="detail-selector-quantity" name="quantity" title="Quantity" class="selectpicker"
-                                data-width="200px" required>
+                                data-width="200px" data-size="5" required>
                             <option value=1> 1</option>
                             <option value=2> 2</option>
                             <option value=3> 3</option>
@@ -53,7 +53,7 @@
                         <div class="detail-choose">
                             <label for="detail-selector-topping">Topping:&#160;</label>
                             <select id="detail-selector-topping" name="toppings" class="selectpicker"
-                                    title="Select your topping" multiple required
+                                    title="Select your topping" multiple required data-size="5"
                                     data-selected-text-format="count"
                                     data-live-search="true" data-width="208.22px"
                                     data-max-options="{{ product.topping_num }}">
@@ -67,7 +67,7 @@
                         <div class="detail-choose">
                             <label for="detail-selector-additional">Extra:&#160;</label>
                             <select id="detail-selector-additional" name="additional" class="selectpicker" multiple
-                                    data-selected-text-format="count"
+                                    data-selected-text-format="count" data-size="5"
                                     data-live-search="true" data-width="227.72px">
                                 {% for item in additional %}
                                     <option value="{{ item.name }}">{{ item }}</option>
