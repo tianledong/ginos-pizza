@@ -9,7 +9,7 @@ pytz==2020.1
 requests==2.24.0
 sqlparse==0.3.1
 stripe==2.49.0
-urllib3==1.25.10
+urllib3==1.26.5
 whitenoise==5.1.0
 dj-database-url==0.5.0
 
